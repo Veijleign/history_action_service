@@ -1,0 +1,35 @@
+#COMMON CONFIG
+spring:
+  main:
+    banner-mode: off
+
+  # DATABASE CONFIG
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/action_history_db
+    username: postgres
+    password: admin
+
+# LOGGING CONFIG
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+
+# SERVER CONFIG
+server:
+  port: 8085
+
+# GRPC CONFIG
+grpc:
+  port: 6065
+  security:
+    auth:
+      enabled: true
+      fail-fast: false
+  enable-reflection: true
+
+# INSTANCE CONFIG
+instance:
+  key: "action-history-service"
+  id: 1

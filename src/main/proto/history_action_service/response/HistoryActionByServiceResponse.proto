@@ -1,0 +1,9 @@
+syntax = "proto3";
+package ru.microservices.action_history_service;
+option java_multiple_files = true;
+
+import "history_action_service/model/HistoryActionModel.proto";
+
+message HistoryActionByServiceResponse {
+  repeated HistoryActionModel historyActionModel = 1;
+}

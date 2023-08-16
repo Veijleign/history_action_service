@@ -1,0 +1,7 @@
+syntax = "proto3";
+package ru.microservices.action_history_service;
+option java_multiple_files = true;
+
+message HistoryActionByServiceRequest {
+  int64 service_id = 1;
+}

@@ -1,0 +1,12 @@
+syntax = "proto3";
+package ru.microservices.action_history_service;
+option java_multiple_files = true;
+
+message HistoryActionModel {
+  int64 id = 1;
+  int64 service_instance_id = 2;
+  string entity = 3;
+  string field = 4;
+  string value = 5;
+  string updated_at = 6;
+}
