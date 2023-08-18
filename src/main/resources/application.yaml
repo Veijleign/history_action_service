@@ -8,6 +8,22 @@ spring:
     url: r2dbc:postgresql://localhost:5432/action_history_db
     username: postgres
     password: admin
+  liquibase:
+    url: jdbc:postgresql://localhost:5432/action_history_db
+    user: postgres
+    password: admin
+    default-schema: public
+    enabled: true
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: localization-group
+    topics:
+      create-history-action-topic: createHistoryActionTopic
+    partition: 2
+    properties:
+      security:
+        protocol=PLAINTEXT:
 
 # LOGGING CONFIG
 logging:

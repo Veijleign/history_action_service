@@ -17,11 +17,12 @@ public class HistoryAction {
     @Id
     private Long id;
     @Column("service_instance_id")
-    private Long serviceInstanceId;
+    private Long serviceInstanceId; // название сервиса (role_service, user_service, etc)
+
     @Column("entity")
-    private String entity;
+    private String entity; // название класса (role, permission, user, token, etc)
     @Column("field")
-    private String field;
+    private String field; // название поля класса (role.name, user.age etc)
     @Column("value")
     private String value;
     @Column("updated_at")

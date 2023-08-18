@@ -39,6 +39,12 @@ dependencies {
 	runtimeOnly 'org.postgresql:postgresql'
 	runtimeOnly 'org.postgresql:r2dbc-postgresql'
 
+	//LIQUIBASE
+	implementation "org.liquibase:liquibase-core:4.20.0"
+
+	// KAFKA
+	implementation 'org.springframework.kafka:spring-kafka'
+
 	//OTHERS
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'

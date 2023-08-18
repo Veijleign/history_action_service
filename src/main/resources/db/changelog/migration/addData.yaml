@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 17-08-2023-add-data
+      author: Veijleign
+      changes:
+        - loadUpdateData:
+            encoding: UTF-8
+            file: db/changelog/data/history_action.csv
+            tableName: history_action
+            separator: ';'
+            primaryKey: id

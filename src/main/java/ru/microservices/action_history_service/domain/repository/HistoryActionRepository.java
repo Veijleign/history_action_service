@@ -19,9 +19,11 @@ public interface HistoryActionRepository
     )
     Mono<HistoryAction> findTopByServiceInstanceId(Long serviceInstanceId);
 
-    @Query("""
+
+    // must change a bit
+    @Query(""" 
             SELECT *
-            FROM history_action
+            FROM history_action item
             WHERE item.service_instance_id =:serviceInstanceId
             """
     )

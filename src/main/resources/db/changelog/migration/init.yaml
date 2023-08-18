@@ -1,0 +1,68 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2023-08-17-init
+      author: Veijleign
+      changes:
+        - createSequence:
+            sequenceName: history_action_sequence
+            incrementBy: 1
+            startValue: 5
+            maxValue: 9223372036854775807
+            cycle: false
+
+        - createTable:
+            tableName: history_action
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  defaultValueComputed: "nextval('history_action_sequence')"
+                  constraints:
+                    unique: true
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: service_instance_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: entity
+                  type: TEXT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: field
+                  type: TEXT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: value
+                  type: TEXT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  constraints:
+                    nullable: false
+
+#
+#
+#        - addForeignKeyConstraint:
+#            baseTableName: localization_value
+#            referencedTableName: language
+#            baseColumnNames: language_id
+#            referencedColumnNames: id
+#            constraintName: fkc_localization_value_language
+#            onUpdate: CASCADE
+#            onDelete: CASCADE
+#
+#        - addForeignKeyConstraint:
+#            baseTableName: localization_value
+#            referencedTableName: localization
+#            baseColumnNames: localization_id
+#            referencedColumnNames: id
+#            constraintName: fkc_localization_value_localization
+#            onUpdate: CASCADE
+#            onDelete: CASCADE
