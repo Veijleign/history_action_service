@@ -6,15 +6,18 @@ option java_multiple_files = true;
 import "history_action_service/model/HistoryActionModel.proto";
 
 //REQUEST
-import "history_action_service/request/HistoryActionByServiceRequest.proto";
+import "history_action_service/request/HistoryActionByServiceAndEntityNameRequest.proto";
+import "history_action_service/request/HistoryActionByServiceAndEntityIdRequest.proto";
 
 //RESPONSE
 import "history_action_service/response/HistoryActionByServiceResponse.proto";
-import "history_action_service/response/HistoryActionLastByServiceResponse.proto";
 
 service HistoryActionService {
-  rpc getHistoryActionByService(HistoryActionByServiceRequest)
-      returns (HistoryActionByServiceResponse) {}
-  rpc getHistoryActionLastByService(HistoryActionByServiceRequest)
-      returns (HistoryActionLastByServiceResponse) {}
+  rpc GetHistoryActionByServiceAndEntity(HistoryActionByServiceAndEntityNameRequest)
+      returns (HistoryActionByServiceResponse) {
+  }
+
+  rpc GetHistoryActionByServiceAndEntityId(HistoryActionByServiceAndEntityIdRequest)
+      returns (HistoryActionByServiceResponse) {
+  }
 }

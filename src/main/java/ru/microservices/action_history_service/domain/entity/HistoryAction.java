@@ -8,6 +8,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,14 +20,18 @@ public class HistoryAction {
     @Id
     private Long id;
     @Column("service_instance_id")
-    private Long serviceInstanceId; // название сервиса (role_service, user_service, etc)
+    private Long serviceInstanceId;
 
-    @Column("entity")
-    private String entity; // название класса (role, permission, user, token, etc)
-    @Column("field")
-    private String field; // название поля класса (role.name, user.age etc)
-    @Column("value")
-    private String value;
+    @Column("entity_id")
+    private String entityId;
+    @Column("entity_name")
+    private String entityName;
+    @Column("field_name")
+    private String fieldName;
+    @Column("past_value")
+    private String pastValue;
+    @Column("new_value")
+    private String newValue;
     @Column("updated_at")
-    private String updatedAt;
+    private LocalDateTime updatedAt = LocalDateTime.now();
 }

@@ -27,17 +27,27 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: entity
+                  name: entity_id
                   type: TEXT
                   constraints:
                     nullable: false
               - column:
-                  name: field
+                  name: entity_name
                   type: TEXT
                   constraints:
                     nullable: false
               - column:
-                  name: value
+                  name: field_name
+                  type: TEXT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: past_value
+                  type: TEXT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: new_value
                   type: TEXT
                   constraints:
                     nullable: false
@@ -46,23 +56,3 @@ databaseChangeLog:
                   type: timestamp
                   constraints:
                     nullable: false
-
-#
-#
-#        - addForeignKeyConstraint:
-#            baseTableName: localization_value
-#            referencedTableName: language
-#            baseColumnNames: language_id
-#            referencedColumnNames: id
-#            constraintName: fkc_localization_value_language
-#            onUpdate: CASCADE
-#            onDelete: CASCADE
-#
-#        - addForeignKeyConstraint:
-#            baseTableName: localization_value
-#            referencedTableName: localization
-#            baseColumnNames: localization_id
-#            referencedColumnNames: id
-#            constraintName: fkc_localization_value_localization
-#            onUpdate: CASCADE
-#            onDelete: CASCADE

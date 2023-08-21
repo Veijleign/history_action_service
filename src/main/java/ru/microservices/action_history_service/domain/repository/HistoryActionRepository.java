@@ -12,20 +12,28 @@ public interface HistoryActionRepository
         extends ReactiveCrudRepository<HistoryAction, Long> {
 
     @Query("""
-            SELECT service_instance_id item
-            FROM history_action
+            SELECT *
+            FROM history_action item
             WHERE item.service_instance_id =:serviceInstanceId
+            AND item.entity_id =:entityId
+            AND item.entity_name =:entityName
             """
     )
-    Mono<HistoryAction> findTopByServiceInstanceId(Long serviceInstanceId);
+    Flux<HistoryAction> findByServiceInstanceIdAndEntityAndEntityIdAndEntityName(
+            Long serviceInstanceId,
+            String entityName,
+            String entityId
+    );
 
-
-    // must change a bit
     @Query(""" 
             SELECT *
             FROM history_action item
             WHERE item.service_instance_id =:serviceInstanceId
+            AND item.entity_name =:entityName
             """
     )
-    Flux<HistoryAction> findAllByServiceInstanceId(Long serviceInstanceId);
+    Flux<HistoryAction> findByServiceInstanceIdAAndEntityName(
+            Long serviceInstanceId,
+            String entityName
+    );
 }

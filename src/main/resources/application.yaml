@@ -1,29 +1,28 @@
 #COMMON CONFIG
 spring:
   main:
-    banner-mode: off
+    banner-mode: "off"
 
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: action-history-service-group
+    topics: createHistoryActionTopic
   # DATABASE CONFIG
   r2dbc:
-    url: r2dbc:postgresql://localhost:5432/action_history_db
+    url: r2dbc:postgresql://localhost:5432/history_action_db
     username: postgres
     password: admin
   liquibase:
-    url: jdbc:postgresql://localhost:5432/action_history_db
+    url: jdbc:postgresql://localhost:5432/history_action_db
     user: postgres
     password: admin
     default-schema: public
     enabled: true
-  kafka:
-    bootstrap-servers: localhost:9092
-    consumer:
-      group-id: localization-group
-    topics:
-      create-history-action-topic: createHistoryActionTopic
-    partition: 2
-    properties:
-      security:
-        protocol=PLAINTEXT:
+#    partition: 2
+#    properties:
+#      security:
+#        protocol=PLAINTEXT:
 
 # LOGGING CONFIG
 logging:
@@ -34,7 +33,7 @@ logging:
 
 # SERVER CONFIG
 server:
-  port: 8085
+  port: ${HTTP_SERVER_PORT:8084}
 
 # GRPC CONFIG
 grpc:
@@ -48,4 +47,4 @@ grpc:
 # INSTANCE CONFIG
 instance:
   key: "action-history-service"
-  id: 1
+  id: 7
