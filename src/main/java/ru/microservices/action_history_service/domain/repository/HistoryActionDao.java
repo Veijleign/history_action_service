@@ -2,6 +2,10 @@ package ru.microservices.action_history_service.domain.repository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
@@ -9,12 +13,8 @@ import reactor.core.publisher.Mono;
 import ru.microservices.action_history_service.domain.entity.HistoryAction;
 import ru.microservices.action_history_service.domain.payload.HistoryActionDto;
 import ru.microservices.action_history_service.domain.payload.HistoryActionMessage;
-import ru.microservices.action_history_service.util.DatePatterns;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Map;
 
 @Slf4j
 @Component
@@ -23,22 +23,53 @@ public class HistoryActionDao {
 
     private final HistoryActionRepository historyActionRepository;
 
-    public Flux<HistoryAction> getByServiceIdEntityNameEntityId(HistoryActionDto dto) {
+    public Mono<Page<HistoryAction>> getByServiceIdEntityNameEntityId(
+            Long serviceId,
+            String entityName,
+            String entityId,
+            Pageable pageable
+    ) {
         // todo if
         return historyActionRepository
-                .findByServiceInstanceIdAndEntityAndEntityIdAndEntityName(
-                        dto.getServiceInstanceId(),
-                        dto.getEntityName(),
-                        dto.getEntityId()
+                .findAllByServiceInstanceIdAndEntityNameAndEntityId(
+                        serviceId,
+                        entityName,
+                        entityId,
+                        pageable
+                )
+                .collectList()
+                .zipWith(
+                        historyActionRepository.count()
+                )
+                .map(o -> new PageImpl<>(
+                                o.getT1(),
+                                pageable,
+                                o.getT2()
+                        )
                 );
     }
 
-    public Flux<HistoryAction> getByServiceIdAndEntityName(HistoryActionDto dto) {
+    public Mono<Page<HistoryAction>> getByServiceIdAndEntityName(
+            Long serviceId,
+            String entityName,
+            Pageable pageable
+    ) {
         // todo if
         return historyActionRepository
-                .findByServiceInstanceIdAAndEntityName(
-                        dto.getServiceInstanceId(),
-                        dto.getEntityName()
+                .findAllByServiceInstanceIdAndEntityName(
+                        serviceId,
+                        entityName,
+                        pageable
+                )
+                .collectList()
+                .zipWith(
+                        historyActionRepository.count()
+                )
+                .map(o -> new PageImpl<>(
+                                o.getT1(),
+                                pageable,
+                                o.getT2()
+                        )
                 );
     }
 

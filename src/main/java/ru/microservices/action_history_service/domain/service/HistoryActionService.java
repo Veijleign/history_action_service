@@ -2,17 +2,20 @@ package ru.microservices.action_history_service.domain.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.common.protocol.types.Field;
+import org.springframework.data.domain.Pageable;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
 import ru.microservices.action_history_service.domain.entity.HistoryAction;
 import ru.microservices.action_history_service.domain.payload.HistoryActionDto;
 import ru.microservices.action_history_service.domain.payload.HistoryActionMessage;
 import ru.microservices.action_history_service.domain.repository.HistoryActionDao;
 
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -22,19 +25,37 @@ public class HistoryActionService {
     private final HistoryActionDao historyActionDao;
 
     public List<HistoryAction> getByServiceIdAndEntityName(
-            HistoryActionDto dto
+            Long serviceId,
+            String entityName,
+            Pageable pageable
     ) {
-        return historyActionDao.getByServiceIdAndEntityName(dto)
-                .collectList()
-                .block();
+        return Objects.requireNonNull(
+                        historyActionDao.getByServiceIdAndEntityName(
+                                        serviceId,
+                                        entityName,
+                                        pageable
+                                )
+                                .block()
+                )
+                .toList();
     }
 
     public List<HistoryAction> getByServiceIdAndEntityNameAndEntityId(
-            HistoryActionDto dto
+            Long serviceId,
+            String entityName,
+            String entityId,
+            Pageable pageable
     ) {
-        return historyActionDao.getByServiceIdEntityNameEntityId(dto)
-                .collectList()
-                .block();
+        return Objects.requireNonNull(
+                        historyActionDao.getByServiceIdEntityNameEntityId(
+                                        serviceId,
+                                        entityName,
+                                        entityId,
+                                        pageable
+                                )
+                                .block()
+                )
+                .toList();
     }
 
     @KafkaListener(

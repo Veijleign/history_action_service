@@ -1,39 +1,25 @@
 package ru.microservices.action_history_service.domain.repository;
 
-import org.springframework.data.r2dbc.repository.Query;
-import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.r2dbc.repository.R2dbcRepository;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 import ru.microservices.action_history_service.domain.entity.HistoryAction;
 
 @Repository
 public interface HistoryActionRepository
-        extends ReactiveCrudRepository<HistoryAction, Long> {
+        extends R2dbcRepository<HistoryAction, Long> {
 
-    @Query("""
-            SELECT *
-            FROM history_action item
-            WHERE item.service_instance_id =:serviceInstanceId
-            AND item.entity_id =:entityId
-            AND item.entity_name =:entityName
-            """
-    )
-    Flux<HistoryAction> findByServiceInstanceIdAndEntityAndEntityIdAndEntityName(
-            Long serviceInstanceId,
+    Flux<HistoryAction> findAllByServiceInstanceIdAndEntityNameAndEntityId(
+            Long serviceId,
             String entityName,
-            String entityId
+            String entityId,
+            Pageable pageable
     );
 
-    @Query(""" 
-            SELECT *
-            FROM history_action item
-            WHERE item.service_instance_id =:serviceInstanceId
-            AND item.entity_name =:entityName
-            """
-    )
-    Flux<HistoryAction> findByServiceInstanceIdAAndEntityName(
-            Long serviceInstanceId,
-            String entityName
+    Flux<HistoryAction> findAllByServiceInstanceIdAndEntityName(
+            Long serviceId,
+            String entityName,
+            Pageable pageable
     );
 }

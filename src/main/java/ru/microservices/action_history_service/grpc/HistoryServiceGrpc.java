@@ -4,12 +4,12 @@ import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
+import org.springframework.data.domain.Pageable;
 import ru.microservices.action_history_service.HistoryActionByServiceAndEntityIdRequest;
 import ru.microservices.action_history_service.HistoryActionByServiceAndEntityNameRequest;
 import ru.microservices.action_history_service.HistoryActionByServiceResponse;
 import ru.microservices.action_history_service.HistoryActionServiceGrpc;
 import ru.microservices.action_history_service.domain.mapper.HistoryActionMapper;
-import ru.microservices.action_history_service.domain.payload.HistoryActionDto;
 import ru.microservices.action_history_service.domain.service.HistoryActionService;
 import ru.microservices.action_history_service.util.StreamObserverUtils;
 
@@ -30,7 +30,11 @@ public class HistoryServiceGrpc extends HistoryActionServiceGrpc.HistoryActionSe
                 responseObserver,
                 () -> historyActionMapper.toHistoryActionByServiceResponse(
                         historyActionService.getByServiceIdAndEntityName(
-                                historyActionMapper.toHistoryActionDto(request)
+                                request.getServiceId(),
+                                request.getEntityName(),
+                                Pageable.ofSize(
+                                        (int) request.getCount()
+                                )
                         )
                 )
         );
@@ -45,7 +49,12 @@ public class HistoryServiceGrpc extends HistoryActionServiceGrpc.HistoryActionSe
                 responseObserver,
                 () -> historyActionMapper.toHistoryActionByServiceResponse(
                         historyActionService.getByServiceIdAndEntityNameAndEntityId(
-                                historyActionMapper.toHistoryActionDto(request)
+                                request.getServiceId(),
+                                request.getEntityName(),
+                                request.getEntityId(),
+                                Pageable.ofSize(
+                                        (int) request.getCount()
+                                )
                         )
                 )
         );
